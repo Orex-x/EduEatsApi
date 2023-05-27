@@ -12,8 +12,8 @@ public class DatabaseContext : DbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductBasket> ProductBaskets { get; set; }
     public DbSet<User> Users { get; set; }
-    
     public DbSet<BankCard> BankCards { get; set; }
+    public DbSet<FavoriteProduct> FavoriteProducts { get; set; }
 
     public DatabaseContext()
     {
@@ -29,11 +29,7 @@ public class DatabaseContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        /* optionsBuilder.UseNpgsql(
-             "host=172.21.0.2;port=5432;database=EduEats;username=postgres;password=333");*/
-
         optionsBuilder.UseNpgsql(
-           "host=localhost;port=5432;database=EduEats;username=postgres;password=333");
-
+            "host=172.21.0.2;port=5432;database=EduEats;username=postgres;password=333");
     }
 }

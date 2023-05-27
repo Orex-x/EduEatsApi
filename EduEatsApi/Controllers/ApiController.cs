@@ -15,7 +15,13 @@ public class ApiController : Controller
     {
         _context = context;
     }
-    
+
+    [Route("FavoriteProduct/get")]
+    public async Task<IEnumerable<FavoriteProduct>> GetFavoriteProducts()
+       => await _context.FavoriteProducts
+           .Include(x => x.Product)
+           .ToArrayAsync();
+
     [Route("Category/get")]
     public async Task<IEnumerable<Category>> GetCategorys()
         => await _context.Categorys
