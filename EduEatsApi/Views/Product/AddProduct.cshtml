@@ -1,0 +1,41 @@
+﻿@model EduEatsApi.ViewModels.AddProductViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+
+<div class="container">
+    <form asp-action="AddProduct" asp-controller="Product" asp-anti-forgery="true">
+        <div class="child">
+               
+            <div class="child-child" style="margin-top: 10px">
+                <h1 class="h3 mb-3 font-weight-normal">Добавление продукта</h1>
+            </div>
+               
+            <div class="child-child" style="margin-top: 10px">
+                <input asp-for="Product.Name" type="text" class="form-control" placeholder="Имя" />
+            </div>
+               
+            <div class="child-child" style="margin-top: 10px">
+                <input asp-for="Product.Description" type="text" class="form-control" placeholder="Описание" />
+            </div>
+            
+            <div class="child-child" style="margin-top: 10px">
+                <input asp-for="Product.Amount" type="number" class="form-control" placeholder="Количество" />
+            </div>
+            
+            <div class="child-child" style="margin-top: 10px">
+                <input asp-for="Product.Price" type="number" class="form-control" placeholder="Цена" />
+            </div>
+
+            <div class="child-child" style="margin-top: 10px">
+                <input asp-for="Product.PathToImage" type="text" class="form-control" placeholder="Картинка" />
+            </div>
+            
+            <div class="child-child" style="margin-top: 10px">
+                <button class="btn btn-primary btn-lg mt-6" type="submit">Добавить</button>
+            </div>
+        </div>
+    </form>
+</div>

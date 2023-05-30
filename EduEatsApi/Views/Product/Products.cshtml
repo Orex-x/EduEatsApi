@@ -1,0 +1,64 @@
+﻿@model EduEatsApi.ViewModels.ProductsViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="col">
+    <a class="nav-link text-light" asp-area="" 
+       asp-controller="Product" asp-action="AddProduct">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+            Добавить продукт
+        </button>
+    </a>
+</div>
+
+@{
+    int groupingsNewProducts = 3;
+    var groupedNewProducts = Model.Products
+      .Select((x, i) =>
+        new
+        {
+          x, i = i / groupingsNewProducts
+        })
+      .GroupBy(x => x.i, x => x.x);
+}
+
+
+@{
+    if (Model.Products.Count > 0)
+    {
+          @foreach (var items in groupedNewProducts)
+          {
+              <div class="row" style="margin-top: 20px">
+                  @foreach (var item in items)
+                  {
+                      <div class="col">
+                          <div class="card" style="width: 18rem;">
+                              <img src="@item.PathToImage" class="card-img-top">
+                              <div class="card-body">
+                                  <h5 class="card-title">@item.Name</h5>
+                                  <div class="row">
+                                      <div class="col">
+                                          <p class="card-text">@item.Description</p>
+                                      </div>
+
+                                      <div class="col" style="text-align: right">
+                                          <p class="card-text">@item.Amount шт.</p>
+                                      </div>
+                                  </div>
+                                  <a href="#" class="btn btn-primary">Перейти</a>
+                              </div>
+                          </div>
+                      </div>
+                  }
+              </div>
+              
+          }
+    }
+    else
+    {
+        <h5 class="personal-data__data-title" style="margin-top: 40px; margin-left: 15px">Продуктов нету</h5>
+    }
+}
+
