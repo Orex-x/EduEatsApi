@@ -1,5 +1,8 @@
-﻿using System.Net;
+﻿using System.Collections;
+using System.Net;
+using System.Text;
 using System.Web;
+using EduEatsApi.Models;
 using EduEatsApi.Services;
 using EduEatsApi.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -107,4 +110,61 @@ public class ProductController : Controller
         return parts[1];
     }
 
+    public async Task<CsvResult> GetData()
+    {
+        var stringBuilder = new StringBuilder();
+
+        var list = await _context.Products.ToListAsync();
+        
+        list.ForEach(x =>
+        {
+            stringBuilder.AppendLine($"{x.Name},{x.Description},{x.Amount},{x.Price},{x.PathToImage}");
+        });
+
+        var result = new CsvResult(stringBuilder.ToString(), "Products.cvs");
+        
+        return result;
+    }
+
+    public IActionResult UploadData() => View(new UploadDataViewModel());
+    
+    
+    [HttpPost]
+    public async Task<IActionResult> UploadData(UploadDataViewModel model)
+    {
+        if (model.FileUpload?.FormFile != null && model.FileUpload.FormFile.Length > 0)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var list = new List<string>();
+            using (var sr = new StreamReader(model.FileUpload.FormFile.OpenReadStream(), Encoding.UTF8))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null) list.Add(line);
+            }
+            
+            list.ForEach(async x =>
+            {
+                try
+                {
+                    var array = x.Split(",");
+                    var product = new Product
+                    {
+                        Name = array[0],
+                        Description = array[1],
+                        Amount = Convert.ToInt32(array[2]),
+                        Price = Convert.ToInt32(array[3]),
+                        PathToImage = array[4]
+                    };
+                    await _context.Products.AddAsync(product);
+                }
+                catch (Exception)
+                {
+                }
+            });
+            await _context.SaveChangesAsync();
+        }
+        
+        return View(model);
+    }
 }
