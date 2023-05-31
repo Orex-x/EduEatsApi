@@ -33,6 +33,6 @@ public class DatabaseContext : DbContext
             "host=172.21.0.2;port=5432;database=EduEats;username=postgres;password=333");*/
         
         optionsBuilder.UseNpgsql(
-            "host=localhost;port=5432;database=EduEats;username=postgres;password=333");
+            "host=localhost;port=5432;database=EduEats;username=postgres;password=123");
     }
 }

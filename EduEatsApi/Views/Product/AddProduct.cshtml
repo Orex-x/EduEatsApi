@@ -4,6 +4,67 @@
     Layout = "_Layout";
 }
 
+<style>
+    .scrolling-wrapper {
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    
+    .card {
+      display: inline-block;
+      margin-right: 10px; /* Опционально: добавляет небольшой отступ между карточками */
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function getImages() {
+    var productName = $('#productName').val();
+
+  var url = '@Url.Action("GetImages", "Product")' + '/?productName=' + productName;
+  
+    $.ajax({
+      url: url,
+      method: 'POST',
+      success: function(data) {
+        // Очистить текущий список изображений
+        $('#imageList').empty();
+
+        // Добавить новые изображения в список
+        data.forEach(function(imageUrl) {
+          var card = $('<div>').addClass('card').css('width', '18rem');
+          var image = $('<img>').attr('src', imageUrl).addClass('card-img-top').css({
+            'object-fit': 'cover',
+            'height': '300px'
+          });
+          var cardBody = $('<div>').addClass('card-body');
+          var title = $('<h5>').addClass('card-title').text('');
+          var description = $('<p>').addClass('card-text').text('');
+          var row = $('<div>').addClass('row');
+          var col1 = $('<div>').addClass('col').append(description);
+          var col2 = $('<div>').addClass('col').css('text-align', 'right').text('');
+          var button = $('<a>').addClass('btn btn-primary').text('Выбрать');
+        
+          button.click(function() {
+            // Обработчик события нажатия на кнопку
+            var imageUrl = $(this).siblings('.card-img-top').attr('src');
+            $('input[name="Product.PathToImage"]').val(imageUrl);
+          });
+
+          cardBody.append(title, row);
+          row.append(col1, col2);
+          card.append(image, cardBody, button);
+          $('#imageList').append(card);
+        });
+
+      },
+      error: function() {
+        alert('Ошибка при получении изображений');
+      }
+    });
+  }
+</script>
+
 
 <div class="container">
     <form asp-action="AddProduct" asp-controller="Product" asp-anti-forgery="true">
@@ -14,7 +75,7 @@
             </div>
                
             <div class="child-child" style="margin-top: 10px">
-                <input asp-for="Product.Name" type="text" class="form-control" placeholder="Имя" />
+                <input asp-for="Product.Name" type="text" id="productName" class="form-control" placeholder="Имя" />
             </div>
                
             <div class="child-child" style="margin-top: 10px">
@@ -32,6 +93,18 @@
             <div class="child-child" style="margin-top: 10px">
                 <input asp-for="Product.PathToImage" type="text" class="form-control" placeholder="Картинка" />
             </div>
+            
+            <button class="btn btn-primary" type="button" onclick="getImages()">Поиск</button>
+            
+           
+            <div class="row">
+              <div class="scrolling-wrapper">
+                <div id="imageList"></div>
+              </div>
+            </div>
+
+           
+
             
             <div class="child-child" style="margin-top: 10px">
                 <button class="btn btn-primary btn-lg mt-6" type="submit">Добавить</button>
