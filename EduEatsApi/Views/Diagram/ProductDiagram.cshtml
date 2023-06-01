@@ -1,0 +1,65 @@
+﻿@model EduEatsApi.ViewModels.ProductDiagramViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="panel-light" style="width: auto;height: auto; margin-top: 80px; margin-bottom: 50px; margin-right: 50px">
+    <div class="card" style="border-radius: 25px; margin-top: 30px">
+        <div style="margin: 20px">
+            <h1>Количество проданных товаров</h1>
+        </div>
+        <div class="card-body">
+            <canvas id="BarChart" max-height="100" max-width="100"></canvas>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+  const barCTX = document.getElementById('BarChart');
+
+  var BarLabels = [];
+  var BarData = [];
+
+  
+  @if (Model.BarLabels.Count == Model.BarData.Count)
+  {
+      foreach (var i in Model.BarLabels)
+      {
+          @:BarLabels.push('@Html.Raw(i)');
+      }
+    
+      foreach (var i in Model.BarData)
+      {
+          @:BarData.push(@i);
+      }
+  }
+  
+  new Chart(barCTX, {
+    type: 'bar',
+    data: {
+      labels: BarLabels,
+      datasets: [{
+        label: 'Количество продаж',
+        data: BarData,
+        borderWidth: 1
+      }]
+    },
+    options: {
+            scales: {
+              x: {
+                ticks: {
+                  callback: function() {
+                    return '';
+                  },
+                }
+              }
+            }
+          },
+  });
+  
+</script>
