@@ -1,0 +1,33 @@
+﻿@model EduEatsApi.ViewModels.ProductReportViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+
+<div class="col">
+    <a class="nav-link text-light" asp-area="" 
+       asp-controller="Report" asp-action="ImportToExcel">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+            Импорт в Excel
+        </button>
+    </a>
+</div>
+
+<div class="col">
+    <a class="nav-link text-light" asp-area="" 
+       asp-controller="Report" asp-action="ImportToPdf">
+        <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">
+            Импорт в PDF
+        </button>
+    </a>
+</div>
+
+<div class="col">
+    <a class="nav-link text-light" asp-area="" 
+       asp-controller="Report" asp-action="Print">
+        <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">
+            Печать
+        </button>
+    </a>
+</div>

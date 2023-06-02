@@ -8,7 +8,6 @@ namespace EduEatsApi.Controllers;
 public class DiagramController : Controller
 {
     private readonly DatabaseContext _context;
-
     public DiagramController(DatabaseContext context)
     {
         _context = context;
@@ -30,6 +29,7 @@ public class DiagramController : Controller
         {
             var count = records.Sum(x => x.Products.Where(y
                 => y.Product.Name == label).Sum(z => z.Amount));
+            data.Add(count);
         });
         
         var model = new ProductDiagramViewModel
