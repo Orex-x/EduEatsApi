@@ -38,6 +38,9 @@ public class ApiController : Controller
             .ThenInclude(x => x.Products)
             .Include(x => x.User)
             .Include(x => x.BankCards)
+            .Include(x => x.Orders)
+            .ThenInclude(x => x.Products)
+            .ThenInclude(x => x.Product)
             .ToArrayAsync();
     
     [Route("Combo/get")]

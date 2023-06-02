@@ -29,10 +29,10 @@ public class DatabaseContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        /*optionsBuilder.UseNpgsql(
-            "host=172.21.0.2;port=5432;database=EduEats;username=postgres;password=333");*/
-        
         optionsBuilder.UseNpgsql(
-            "host=localhost;port=5432;database=EduEats;username=postgres;password=123");
+            "host=172.21.0.2;port=5432;database=EduEats;username=postgres;password=333");
+
+        /*   optionsBuilder.UseNpgsql(
+               "host=localhost;port=5432;database=EduEats;username=postgres;password=123");*/
     }
 }
